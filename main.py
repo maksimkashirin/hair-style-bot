@@ -1,7 +1,7 @@
 import asyncio
 import os
 
-from services.ai_generation import generate_image_mock
+from services.ai_generation import generate_image_huggingface
 from database.db import init_db, save_generation
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
@@ -21,10 +21,6 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 async def show_main_menu(message: Message):
-    await message.answer(
-        "Кнопка «Главное меню» теперь доступна внизу.",
-        reply_markup=start_keyboard
-    )
 
     await message.answer(
         "Привет!\n\n"
@@ -83,7 +79,7 @@ async def process_menu(callback: CallbackQuery, state: FSMContext):
         await state.update_data(last_task="style_identity")
         await state.set_state(UserStates.waiting_photo_for_style_identity_board)
         await callback.message.answer(
-            "Загрузите фотографию для создания Style Identity Board."
+            "Загрузите фотографию для создания стилевой карты / Style Identity Board."
         )
 
     elif callback.data == "generate_again":
@@ -105,7 +101,7 @@ async def process_menu(callback: CallbackQuery, state: FSMContext):
         elif last_task == "style_identity":
             await state.set_state(UserStates.waiting_photo_for_style_identity_board)
             await callback.message.answer(
-                "Загрузите новое фото для создания Style Identity Board."
+                "Загрузите новое фото для создания стилевой карты / Style Identity Board."
             )
 
         else:
@@ -125,7 +121,7 @@ async def get_haircut_photo(message: Message, state: FSMContext):
     await message.answer("Фото получено. Генерирую борд по стрижкам...")
 
     try:
-        result_path = await generate_image_mock(
+        result_path = await generate_image_huggingface(
             file_path,
             HAIRCUT_BOARD_PROMPT
         )
@@ -167,7 +163,7 @@ async def get_color_photo(message: Message, state: FSMContext):
     await message.answer("Фото получено. Генерирую борд по окрашиваниям...")
 
     try:
-        result_path = await generate_image_mock(
+        result_path = await generate_image_huggingface(
             file_path,
             COLOR_BOARD_PROMPT
         )
@@ -208,10 +204,10 @@ async def get_style_identity_photo(message: Message, state: FSMContext):
 
     await state.set_state(UserStates.generating)
 
-    await message.answer("Фото получено. Создаю Style Identity Board...")
+    await message.answer("Фото получено. Создаю стилевую карту / Style Identity Board...")
 
     try:
-        result_path = await generate_image_mock(
+        result_path = await generate_image_huggingface(
             file_path,
             STYLE_IDENTITY_PROMPT
         )
