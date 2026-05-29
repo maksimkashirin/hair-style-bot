@@ -22,7 +22,7 @@ main_menu = InlineKeyboardMarkup(
         [
             InlineKeyboardButton(
                 text="Сделать стилевую карту / Style Identity Board",
-                callback_data="Сделать стилевую карту / Style Identity Board"
+                callback_data="style_identity"
             )
         ]
     ]
