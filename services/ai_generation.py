@@ -4,7 +4,7 @@ import requests
 from config import HUGGINGFACE_API_TOKEN
 
 
-API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+API_URL = "https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0"
 
 
 async def generate_image_huggingface(file_path: str, prompt: str) -> str:
