@@ -1,0 +1,12 @@
+.venv/
+.env
+
+__pycache__/
+*.pyc
+
+downloads/
+results/
+
+bot_database.db
+
+.idea/
